@@ -4,21 +4,21 @@
 #include<cmath>
 using namespace std;
 
-long long check(long long middle, long long n)
+long long check(long long value, long long n)
 {
     //cout<<"in check()"<<endl;
     long long i, sum=0;
-    for(i=middle; i>0; i--)
+    for(i=value; i>0; i--)
     {
         sum += pow(i, 3);
     }
-    cout<<"in check()"<<" middle = "<<middle<<" sum = "<<sum<<endl;
+    cout<<"in check()"<<" value = "<<value<<" sum = "<<sum<<endl;
     return sum;
 }
 
 long long qs(long long m)
 {
-    long long first, p1, middle, p2, last, i, temp; 
+    long long first, p1, middle, p2, last, i, temp0, temp1, temp2; 
     long long n = m/1000;
     first = 1;
     last = n;
@@ -28,12 +28,19 @@ long long qs(long long m)
         p1 = first + (last-first)/4;
         p2 = first + (last-first)*(3/4);
         
-        temp = check(middle, n);
+        temp0 = check(middle, n);
+        temp1 = check(p1, n);
+        temp2 = check(p2, n);
         
-        if(temp == m) return middle;
-        else if(temp < m) first = middle;
-        else if(temp > m) last = middle;
+        if(temp0 == m) return middle;
+        else if(temp1 == m) return p1;
+        else if(temp2 == m) return p2;
+        else if((m<temp0)&&(m<temp1)) last = p1;
+        else if((m<temp0)&&(m>temp1)) {first=p1; last=middle;}
+        else if((m>temp0)&&(m<temp2)) {first=middle; last=p2;}
+        else if((m>temp0)&&(m>temp2)) first=p2; 
     }
+    return -1;
 }
 
 long long bs(long long m)
@@ -81,5 +88,5 @@ long long f(long long m)
 */
 int main()
 {
-  cout<<bs(4183059834009);
+  cout<<qs(1071225);
 }
