@@ -1,0 +1,85 @@
+// Example program
+#include <iostream>
+#include <string>
+#include<cmath>
+using namespace std;
+
+long long check(long long middle, long long n)
+{
+    //cout<<"in check()"<<endl;
+    long long i, sum=0;
+    for(i=middle; i>0; i--)
+    {
+        sum += pow(i, 3);
+    }
+    cout<<"in check()"<<" middle = "<<middle<<" sum = "<<sum<<endl;
+    return sum;
+}
+
+long long qs(long long m)
+{
+    long long first, p1, middle, p2, last, i, temp; 
+    long long n = m/1000;
+    first = 1;
+    last = n;
+    while(first<=last)
+    {
+        middle  = (first+last)/2;
+        p1 = first + (last-first)/4;
+        p2 = first + (last-first)*(3/4);
+        
+        temp = check(middle, n);
+        
+        if(temp == m) return middle;
+        else if(temp < m) first = middle;
+        else if(temp > m) last = middle;
+    }
+}
+
+long long bs(long long m)
+{
+    cout<<"in bs()"<<endl;
+    long long first, last, middle, i, temp; 
+    long long n = m/1000;
+    first = 1;
+    last = n;
+    cout<<"in bs()"<<" m = "<<m<<" n = "<<n<<endl;
+    while(first<=last)
+    {
+        middle  = (first+last)/2;
+        temp = check(middle, n);
+        if(temp == m) return middle;
+        else if(temp < m) first = middle;
+        else if(temp > m) last = middle;
+    }
+    if(first>last) return -1;
+}
+
+
+/*
+long long f(long long m)
+  {
+    long long i, j;
+    long long ans;
+    int c=0;
+    long long save = m;
+    long long ini = (float)m*0.00004667553501832015;
+    for(i=1; i<(m/1000); i++)
+    {
+      m = save;
+      for(j=i; j>0; j--) m -= pow(j, 3);
+      if(m==0)
+      {
+        c++;
+        ans = i;
+        break;
+      }
+    }
+    if(c==0) return -1;
+    else return ans;
+  }
+*/
+int main()
+{
+  cout<<bs(4183059834009);
+}
